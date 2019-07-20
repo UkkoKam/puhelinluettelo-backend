@@ -1,9 +1,10 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
-
+app.use(cors())
 
 app.use(bodyParser.json())
 morgan.token('post-content', (req,res) => {
@@ -64,7 +65,7 @@ app.post('/api/persons', (request, response) => {
   
     const person = request.body
     console.log(person.name)
-    person.id = Math.random() * (99999999 - 1) + 1
+    console.log(person.id)
     const name = person.name
     const filterName = persons.find(person => person.name === name)
     console.log(person)
@@ -99,7 +100,8 @@ app.get('/info', (req,res) => {
     `)
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
+
 app.listen(PORT, () => {
     console.log(`Server runnin on port ${PORT}`)
 })
